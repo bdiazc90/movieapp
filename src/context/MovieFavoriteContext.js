@@ -19,6 +19,19 @@ export const MovieFavoriteProvider = ({ children }) => {
 	 * fecha en la que guarde el favorito
 	 */
 
+	const removeFavorite = (id) => {
+		const newFavorites = favoriteMovies.filter(
+			(favorite) => favorite.movie.imdbID !== id
+		);
+		setFavoriteMovies(newFavorites);
+		saveInLocalStorage(newFavorites);
+	};
+
+	const cleanFavorites = () => {
+		setFavoriteMovies([]);
+		saveInLocalStorage([]);
+	};
+
 	const addToFavorite = (movie) => {
 		const favorite = {
 			movie,
@@ -32,23 +45,6 @@ export const MovieFavoriteProvider = ({ children }) => {
 			saveInLocalStorage([favorite]);
 			return;
 		}
-
-		//* La segunda vez
-		//! favoriteMovies [{ id: 1 }]
-		//? favoriteMovies.length = 1
-		//? quiero que  la posicion 1 sea igual a favorite
-		//* favoriteMovies.length esto siempre sera uno mayor al indice
-		//* favoriteMovies[favoriteMovies.length] = favorite
-		// favoriteMovies[1] = favorite
-
-		//* La tercera vez
-		//! favoriteMovies [
-		//  { id: 1 },
-		//   {id: 2}
-		//]
-		//favoriteMovies.length = 2
-		//* favoriteMovies[favoriteMovies.length] = favorite
-		// favoriteMovies[2] = favorite
 
 		favoriteMovies[favoriteMovies.length] = favorite;
 		setFavoriteMovies(favoriteMovies);
@@ -77,6 +73,8 @@ export const MovieFavoriteProvider = ({ children }) => {
 				favoriteMovies,
 				addToFavorite,
 				isIncludeInFavorites,
+				removeFavorite,
+				cleanFavorites,
 			}}
 		>
 			{children}

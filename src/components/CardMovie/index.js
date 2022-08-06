@@ -14,7 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const CardMovie = ({ movie }) => {
-	const { addToFavorite, isIncludeInFavorites } =
+	const { addToFavorite, isIncludeInFavorites, removeFavorite } =
 		useContext(MovieFavoriteContext);
 
 	// sirve para saber si debemos pintar el corazon
@@ -32,6 +32,8 @@ const CardMovie = ({ movie }) => {
 	const handleChangeFavorite = (event, newValue) => {
 		if (newValue === 1) {
 			addToFavorite(movie);
+		} else {
+			removeFavorite(movie.imdbID);
 		}
 		setValue(newValue);
 	};
@@ -39,7 +41,7 @@ const CardMovie = ({ movie }) => {
 	useEffect(() => {
 		const pintado = isIncludeInFavorites(movie.imdbID);
 		setValue(pintado);
-	}, []);
+	}, [value]);
 
 	return (
 		<Grid item xs={12} md={4} my={3}>
