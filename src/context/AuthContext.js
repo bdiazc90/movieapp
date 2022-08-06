@@ -1,38 +1,38 @@
 import { createContext, useState } from "react";
+import Config from "../config";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const userStorage = JSON.parse(localStorage.getItem("movieapp.user")) || {};
+	const userStorage = JSON.parse(localStorage.getItem("movieapp.user")) || {};
 
-  const [user, setUser] = useState(userStorage);
+	const [user, setUser] = useState(userStorage);
 
-  function login(user, pass) {
-    if (user === "admin" && pass === "1234") {
-      const authUser = {
-        user: user,
-        name: "Bruno Diaz",
-      };
-      localStorage.setItem("movieapp.user", JSON.stringify(authUser));
-      setUser(authUser);
-      return true;
-    }
-    return false;
-  }
+	function login(username, pass) {
+		const authUser = Config.authUsers.find(
+			(user) => user.username === username && user.pass === pass
+		);
+		if (authUser !== undefined) {
+			localStorage.setItem("movieapp.user", JSON.stringify(authUser));
+			setUser(authUser);
+			return true;
+		}
+		return false;
+	}
 
-  function logout() {
-    localStorage.removeItem("movieapp.user");
-    setUser({});
-    window.location.href = "/";
-  }
+	function logout() {
+		localStorage.removeItem("movieapp.user");
+		setUser({});
+		window.location.href = "/";
+	}
 
-  function isAuth() {
-    return user.name ? true : false;
-  }
+	function isAuth() {
+		return user.name ? true : false;
+	}
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, isAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+	return (
+		<AuthContext.Provider value={{ user, login, logout, isAuth }}>
+			{children}
+		</AuthContext.Provider>
+	);
 };
