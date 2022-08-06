@@ -46,6 +46,7 @@ const CardMovie = ({ movie }) => {
 			<Card
 				sx={{
 					height: 430,
+					cursor: "pointer",
 				}}
 			>
 				<CardMedia
@@ -57,11 +58,7 @@ const CardMovie = ({ movie }) => {
 					image={movie.Poster}
 					alt="green iguana"
 				/>
-				<CardContent
-					sx={{
-						cursor: "pointer",
-					}}
-				>
+				<CardContent>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>
 							<Typography
