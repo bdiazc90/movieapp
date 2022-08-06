@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { styled, useTheme } from "@mui/material/styles";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 import {
 	Box,
 	Toolbar,
@@ -21,6 +21,8 @@ import MuiAppBar from "@mui/material/AppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SearchIcon from "@mui/icons-material/Search";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const drawerWidth = 240;
 
@@ -89,7 +91,26 @@ const Drawer = styled(MuiDrawer, {
 	}),
 }));
 
+const DrawerButton = ({ icon, text, action }) => {
+	const currentPath = window.location.pathname.replace("/", "");
+	const isSelected = currentPath === text.toLowerCase();
+	return (
+		<ListItem
+			selected={isSelected}
+			key={text}
+			disablePadding
+			sx={{ display: "block" }}
+		>
+			<ListItemButton onClick={action}>
+				<ListItemIcon>{icon}</ListItemIcon>
+				<ListItemText primary={text} />
+			</ListItemButton>
+		</ListItem>
+	);
+};
+
 const MainLayout = () => {
+	const history = useNavigate();
 	const { user, logout, isAuth } = useContext(AuthContext);
 
 	const theme = useTheme();
@@ -138,18 +159,24 @@ const MainLayout = () => {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					<ListItem
-						key={"logout"}
-						disablePadding
-						sx={{ display: "block" }}
-					>
-						<ListItemButton onClick={logout}>
-							<ListItemIcon>
-								<LogoutIcon />
-							</ListItemIcon>
-							<ListItemText primary={"logout"} />
-						</ListItemButton>
-					</ListItem>
+					{/* Search */}
+					<DrawerButton
+						text="Search"
+						action={() => history("/search")}
+						icon={<SearchIcon />}
+					/>
+					{/* Favorites */}
+					<DrawerButton
+						text="Favorites"
+						action={() => history("/favorites")}
+						icon={<FavoriteIcon />}
+					/>
+					{/* Logout */}
+					<DrawerButton
+						text="Logout"
+						action={logout}
+						icon={<LogoutIcon />}
+					/>
 				</List>
 			</Drawer>
 			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
