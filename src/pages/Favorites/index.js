@@ -5,6 +5,8 @@ import { AuthContext, MovieFavoriteContext } from "../../context";
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
 import { CardMovie } from "../../components";
 
+import Swal from "sweetalert2";
+
 const Favorites = () => {
 	const { user } = useContext(AuthContext);
 	const { favoriteMovies, cleanFavorites } = useContext(MovieFavoriteContext);
@@ -12,6 +14,20 @@ const Favorites = () => {
 	const myFavoritesMovies = favoriteMovies.filter(
 		(favorite) => favorite.user_id === user.id
 	);
+
+	function cleanButton() {
+		Swal.fire({
+			title: "Clean all favorites movies?",
+			showCancelButton: true,
+			confirmButtonText: "Clean",
+			confirmButtonColor: "#f01",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				cleanFavorites();
+				Swal.fire("Clean!", "", "success");
+			}
+		});
+	}
 
 	return (
 		<Box>
@@ -28,14 +44,16 @@ const Favorites = () => {
 						</Typography>
 					</Grid>
 					<Grid item xs={4}>
-						<Button
-							variant="outlined"
-							color="error"
-							onClick={cleanFavorites}
-							size="large"
-						>
-							Clean
-						</Button>
+						{myFavoritesMovies.length > 0 && (
+							<Button
+								variant="outlined"
+								color="error"
+								onClick={cleanButton}
+								size="large"
+							>
+								Clean
+							</Button>
+						)}
 					</Grid>
 					{myFavoritesMovies.length > 0 &&
 						myFavoritesMovies.map(({ movie }, index) => (
