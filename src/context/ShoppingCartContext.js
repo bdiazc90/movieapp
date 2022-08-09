@@ -43,13 +43,27 @@ export const ShoppingCartProvider = ({ children }) => {
 		saveInLocalStorage(newItems);
 	}
 
+	function upOne(id) {
+		const movie = movieIsInCart(id);
+		if (movie === undefined) return;
+		const newItems = items.filter(
+			(item) => item.movie.imdbID !== id && item.user_id !== user.id
+		);
+		if (movie.quantity < 10) {
+			movie.quantity++;
+			newItems.push(movie);
+			setItems([...newItems]);
+			saveInLocalStorage(newItems);
+		}
+	}
+
 	function saveInLocalStorage(items) {
 		localStorage.setItem("movieapp.shoppingcart", JSON.stringify(items));
 	}
 
 	return (
 		<ShoppingCartContext.Provider
-			value={{ items, saveInCart, movieIsInCart, downOne }}
+			value={{ items, saveInCart, movieIsInCart, downOne, upOne }}
 		>
 			{children}
 		</ShoppingCartContext.Provider>
