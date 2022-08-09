@@ -17,7 +17,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const CartButton = ({ movie }) => {
-	const { saveInCart, movieIsInCart } = useContext(ShoppingCartContext);
+	const { saveInCart, movieIsInCart, downOne } =
+		useContext(ShoppingCartContext);
 
 	const movieInCart = movieIsInCart(movie.imdbID);
 
@@ -36,7 +37,7 @@ const CartButton = ({ movie }) => {
 					variant="contained"
 					aria-label="outlined primary button group"
 				>
-					<Button>-</Button>
+					<Button onClick={() => downOne(movie.imdbID)}>-</Button>
 					<Typography
 						sx={{
 							width: 40,
