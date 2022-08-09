@@ -8,6 +8,8 @@ import {
 	Typography,
 	Chip,
 	Rating,
+	Stack,
+	Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FavoriteIcon from "@mui/icons-material/Favorite";

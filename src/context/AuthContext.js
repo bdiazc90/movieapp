@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import Config from "../config";
 
 import Config from "../config";
 
