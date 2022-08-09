@@ -21,12 +21,21 @@ export const ShoppingCartProvider = ({ children }) => {
 		saveInLocalStorage(items);
 	}
 
+	function movieIsInCart(id) {
+		const movie = items.find(
+			(item) => item.movie.imdbID === id && item.user_id === user.id
+		);
+		return movie;
+	}
+
 	function saveInLocalStorage(items) {
 		localStorage.setItem("movieapp.shoppingcart", JSON.stringify(items));
 	}
 
 	return (
-		<ShoppingCartContext.Provider value={{ items, saveInCart }}>
+		<ShoppingCartContext.Provider
+			value={{ items, saveInCart, movieIsInCart }}
+		>
 			{children}
 		</ShoppingCartContext.Provider>
 	);
