@@ -6,48 +6,55 @@ import { CardMovie } from "../../components";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 const SearchResults = () => {
-  const [movies, setMovies] = useState([]);
-  const { searchText } = useParams();
-  const history = useNavigate();
+	const [movies, setMovies] = useState([]);
+	const { searchText } = useParams();
+	const history = useNavigate();
 
-  async function getSearchResults() {
-    const data = await Services.searchByText(searchText);
-    setMovies(data.Search);
-  }
+	async function getSearchResults() {
+		const data = await Services.searchByText(searchText);
 
-  useEffect(() => {
-    getSearchResults();
-  }, []);
+		const alterData = data.Search.map((item) => {
+			return {
+				...item,
+				Price: (Math.random() * 10).toFixed(2),
+			};
+		});
+		setMovies(alterData);
+	}
 
-  function backButton() {
-    history("/search");
-  }
+	useEffect(() => {
+		getSearchResults();
+	}, []);
 
-  return (
-    <Box>
-      <Container>
-        <IconButton onClick={backButton}>
-          <ArrowBackRoundedIcon color="success" />
-        </IconButton>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography
-              variant="h6"
-              sx={{
-                textTransform: "capitalize",
-              }}
-            >
-              Search / {searchText}
-            </Typography>
-          </Grid>
-          {movies.length > 0 &&
-            movies.map((movie, index) => (
-              <CardMovie movie={movie} key={index} />
-            ))}
-        </Grid>
-      </Container>
-    </Box>
-  );
+	function backButton() {
+		history("/search");
+	}
+
+	return (
+		<Box>
+			<Container>
+				<IconButton onClick={backButton}>
+					<ArrowBackRoundedIcon color="success" />
+				</IconButton>
+				<Grid container spacing={3}>
+					<Grid item xs={12}>
+						<Typography
+							variant="h6"
+							sx={{
+								textTransform: "capitalize",
+							}}
+						>
+							Search / {searchText}
+						</Typography>
+					</Grid>
+					{movies.length > 0 &&
+						movies.map((movie, index) => (
+							<CardMovie movie={movie} key={index} />
+						))}
+				</Grid>
+			</Container>
+		</Box>
+	);
 };
 
 export default SearchResults;

@@ -1,4 +1,4 @@
-export const api = {
+const api = {
 	url: "https://www.omdbapi.com",
 	key: "e50b7182",
 };
@@ -20,6 +20,12 @@ export const authUsers = [
 		id: "1003",
 		username: "linder",
 		name: "Linder Hassinger",
+		pass: "1234",
+	},
+	{
+		id: "1004",
+		username: "andres",
+		name: "Andres Taboada",
 		pass: "1234",
 	},
 ];

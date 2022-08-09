@@ -1,30 +1,27 @@
 import { useContext } from "react";
-
-import { AuthContext, MovieFavoriteContext } from "../../context";
-
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
 import { CardMovie } from "../../components";
+
+import { MovieFavoriteContext } from "../../context";
 
 import Swal from "sweetalert2";
 
 const Favorites = () => {
-	const { user } = useContext(AuthContext);
 	const { favoriteMovies, cleanFavorites } = useContext(MovieFavoriteContext);
-
-	const myFavoritesMovies = favoriteMovies.filter(
-		(favorite) => favorite.user_id === user.id
-	);
 
 	function cleanButton() {
 		Swal.fire({
-			title: "Clean all favorites movies?",
+			title: "Clean all Favorites?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
 			showCancelButton: true,
-			confirmButtonText: "Clean",
-			confirmButtonColor: "#f01",
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Clean!",
 		}).then((result) => {
 			if (result.isConfirmed) {
 				cleanFavorites();
-				Swal.fire("Clean!", "", "success");
+				Swal.fire("Cleaned!", "0 favorited movies.", "success");
 			}
 		});
 	}
@@ -35,7 +32,7 @@ const Favorites = () => {
 				<Grid container spacing={3}>
 					<Grid item xs={8}>
 						<Typography
-							variant="h3"
+							variant="h6"
 							sx={{
 								textTransform: "capitalize",
 							}}
@@ -44,20 +41,19 @@ const Favorites = () => {
 						</Typography>
 					</Grid>
 					<Grid item xs={4}>
-						{myFavoritesMovies.length > 0 && (
+						{favoriteMovies.length > 0 && (
 							<Button
 								variant="outlined"
-								color="error"
+								color="warning"
 								onClick={cleanButton}
-								size="large"
 							>
 								Clean
 							</Button>
 						)}
 					</Grid>
-					{myFavoritesMovies.length > 0 &&
-						myFavoritesMovies.map(({ movie }, index) => (
-							<CardMovie movie={movie} key={index} />
+					{favoriteMovies.length > 0 &&
+						favoriteMovies.map((favorite, index) => (
+							<CardMovie movie={favorite.movie} key={index} />
 						))}
 				</Grid>
 			</Container>

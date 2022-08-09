@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 import Config from "../config";
 
+import Config from "../config";
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {

@@ -1,6 +1,6 @@
 import { useState, createContext, useContext } from "react";
 
-import { AuthContext } from "./";
+import { AuthContext } from "./AuthContext";
 
 export const MovieFavoriteContext = createContext();
 
@@ -12,26 +12,6 @@ export const MovieFavoriteProvider = ({ children }) => {
 
 	const [favoriteMovies, setFavoriteMovies] = useState(favorites);
 
-	/**
-	 * para poder crear guardar la pelicula en mis favoritos
-	 * vamos a guardar 2 cosas
-	 * id de la pelicula
-	 * fecha en la que guarde el favorito
-	 */
-
-	const removeFavorite = (id) => {
-		const newFavorites = favoriteMovies.filter(
-			(favorite) => favorite.movie.imdbID !== id
-		);
-		setFavoriteMovies(newFavorites);
-		saveInLocalStorage(newFavorites);
-	};
-
-	const cleanFavorites = () => {
-		setFavoriteMovies([]);
-		saveInLocalStorage([]);
-	};
-
 	const addToFavorite = (movie) => {
 		const favorite = {
 			movie,
@@ -39,16 +19,22 @@ export const MovieFavoriteProvider = ({ children }) => {
 			user_id: user.id,
 		};
 
-		//* La primera vez
-		if (favoriteMovies.length === 0) {
-			setFavoriteMovies([favorite]);
-			saveInLocalStorage([favorite]);
-			return;
-		}
-
 		favoriteMovies[favoriteMovies.length] = favorite;
 		setFavoriteMovies(favoriteMovies);
 		saveInLocalStorage(favoriteMovies);
+	};
+
+	const removeFavorite = (id) => {
+		const newFavoriteMovies = favoriteMovies.filter(
+			(favorite) => favorite.movie.imdbID !== id
+		);
+		setFavoriteMovies(newFavoriteMovies);
+		saveInLocalStorage(newFavoriteMovies);
+	};
+
+	const cleanFavorites = () => {
+		setFavoriteMovies([]);
+		saveInLocalStorage([]);
 	};
 
 	const saveInLocalStorage = (favorites) => {

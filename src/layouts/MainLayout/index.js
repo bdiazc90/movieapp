@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { styled, useTheme } from "@mui/material/styles";
 import { Outlet, Navigate, useNavigate } from "react-router-dom";
+import { DrawerCart } from "../../components";
 import {
 	Box,
 	Toolbar,
@@ -91,9 +92,9 @@ const Drawer = styled(MuiDrawer, {
 	}),
 }));
 
-const DrawerButton = ({ icon, text, action }) => {
-	const currentPath = window.location.pathname.replace("/", "");
-	const isSelected = currentPath === text.toLowerCase();
+const DrawerButton = ({ text, icon, action }) => {
+	const pathname = window.location.pathname.replace("/", "");
+	const isSelected = pathname === text.toLowerCase();
 	return (
 		<ListItem
 			selected={isSelected}
@@ -139,14 +140,23 @@ const MainLayout = () => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						{user.name}
-					</Typography>
+					<Stack
+						sx={{
+							width: "100%",
+						}}
+						direction="row"
+						justifyContent="space-between"
+					>
+						<Typography variant="h6" noWrap component="div">
+							{user.name}
+						</Typography>
+						<DrawerCart />
+					</Stack>
 				</Toolbar>
 			</AppBar>
 			<Drawer variant="permanent" open={open}>
 				<DrawerHeader>
-					<Typography variant="h4" color="#00594f" fontWeight="bold">
+					<Typography variant="h4" color="green">
 						MovieApp
 					</Typography>
 					<IconButton onClick={handleDrawer}>
@@ -161,21 +171,21 @@ const MainLayout = () => {
 				<List>
 					{/* Search */}
 					<DrawerButton
+						icon={<SearchIcon />}
 						text="Search"
 						action={() => history("/search")}
-						icon={<SearchIcon />}
 					/>
 					{/* Favorites */}
 					<DrawerButton
+						icon={<FavoriteIcon />}
 						text="Favorites"
 						action={() => history("/favorites")}
-						icon={<FavoriteIcon />}
 					/>
 					{/* Logout */}
 					<DrawerButton
+						icon={<LogoutIcon />}
 						text="Logout"
 						action={logout}
-						icon={<LogoutIcon />}
 					/>
 				</List>
 			</Drawer>
