@@ -4,6 +4,7 @@ import {
 	SearchView,
 	SearchResultsView,
 	FavoritesView,
+	CartView,
 } from "../pages";
 import { MainLayout } from "../layouts";
 
@@ -19,6 +20,7 @@ const Router = () => {
 						element={<SearchResultsView />}
 					/>
 					<Route path="/favorites" element={<FavoritesView />} />
+					<Route path="/cart" element={<CartView />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

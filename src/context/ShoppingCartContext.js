@@ -57,13 +57,25 @@ export const ShoppingCartProvider = ({ children }) => {
 		saveInLocalStorage(items);
 	}
 
+	function cleanCart() {
+		setItems([]);
+		saveInLocalStorage([]);
+	}
+
 	function saveInLocalStorage(items) {
 		localStorage.setItem("movieapp.shoppingcart", JSON.stringify(items));
 	}
 
 	return (
 		<ShoppingCartContext.Provider
-			value={{ items, saveInCart, movieIsInCart, upOne, downOne }}
+			value={{
+				items,
+				saveInCart,
+				movieIsInCart,
+				upOne,
+				downOne,
+				cleanCart,
+			}}
 		>
 			{children}
 		</ShoppingCartContext.Provider>
