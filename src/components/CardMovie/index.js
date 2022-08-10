@@ -10,16 +10,52 @@ import {
 	Rating,
 	Stack,
 	Button,
+	ButtonGroup,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
+const CartButton = ({ movie }) => {
+	const { saveInCart, movieIsInCart } = useContext(ShoppingCartContext);
+	const movieInCart = movieIsInCart(movie.imdbID);
+	return (
+		<>
+			{movieInCart === undefined ? (
+				<Button
+					variant="contained"
+					size="small"
+					onClick={() => saveInCart(movie)}
+				>
+					Add to cart
+				</Button>
+			) : (
+				<ButtonGroup
+					variant="contained"
+					aria-label="outlined primary button group"
+				>
+					<Button>-</Button>
+					<Typography
+						sx={{
+							width: 40,
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							fontWeight: "bold",
+						}}
+					>
+						{movieInCart.quantity}
+					</Typography>
+					<Button>+</Button>
+				</ButtonGroup>
+			)}
+		</>
+	);
+};
+
 const CardMovie = ({ movie }) => {
 	const { addToFavorite, isIncludeInFavorites, removeFavorite } =
 		useContext(MovieFavoriteContext);
-
-	const { saveInCart } = useContext(ShoppingCartContext);
 
 	// sirve para saber si debemos pintar el corazon
 	const [value, setValue] = useState(0);
@@ -32,10 +68,6 @@ const CardMovie = ({ movie }) => {
 			color: "#ff3d47",
 		},
 	});
-
-	const addToCart = () => {
-		saveInCart(movie);
-	};
 
 	const handleChangeFavorite = (event, newValue) => {
 		if (newValue === 1) {
@@ -109,14 +141,7 @@ const CardMovie = ({ movie }) => {
 										handleChangeFavorite(event, newValue)
 									}
 								/>
-								<Button
-									variant="contained"
-									size="small"
-									onClick={addToCart}
-								>
-									Add to cart
-								</Button>
-								{/* El corazon se pinta si es que value = 1 */}
+								<CartButton movie={movie} />
 							</Stack>
 						</Grid>
 					</Grid>
