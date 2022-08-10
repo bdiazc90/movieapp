@@ -28,13 +28,26 @@ export const ShoppingCartProvider = ({ children }) => {
 		return movie;
 	}
 
+	function upOne(id) {
+		const movie = movieIsInCart(id);
+		if (movie === undefined) return;
+		if (movie.quantity >= 10) return;
+		const index = items.findIndex(
+			(item) => item.movie.imdbID === id && item.user_id === user.id
+		);
+		movie.quantity++;
+		items[index] = movie;
+		setItems([...items]);
+		saveInLocalStorage(items);
+	}
+
 	function saveInLocalStorage(items) {
 		localStorage.setItem("movieapp.shoppingcart", JSON.stringify(items));
 	}
 
 	return (
 		<ShoppingCartContext.Provider
-			value={{ items, saveInCart, movieIsInCart }}
+			value={{ items, saveInCart, movieIsInCart, upOne }}
 		>
 			{children}
 		</ShoppingCartContext.Provider>
