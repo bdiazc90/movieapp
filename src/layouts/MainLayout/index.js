@@ -25,6 +25,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const drawerWidth = 240;
 
@@ -181,6 +182,12 @@ const MainLayout = () => {
 						icon={<FavoriteIcon />}
 						text="Favorites"
 						action={() => history("/favorites")}
+					/>
+					{/* Favorites */}
+					<DrawerButton
+						icon={<ShoppingCartIcon />}
+						text="Cart"
+						action={() => history("/cart")}
 					/>
 					{/* Logout */}
 					<DrawerButton
