@@ -24,7 +24,7 @@ const CartButton = ({ movie }) => {
 
 	return (
 		<>
-			{movieInCart === undefined ? (
+			{movieInCart === undefined || movieInCart.quantity === 0 ? (
 				<Button
 					variant="contained"
 					size="small"

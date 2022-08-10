@@ -32,28 +32,31 @@ export const ShoppingCartProvider = ({ children }) => {
 	function downOne(id) {
 		const movie = movieIsInCart(id);
 		if (movie === undefined) return;
-		const newItems = items.filter(
-			(item) => item.movie.imdbID !== id && item.user_id !== user.id
+		const index = items.findIndex(
+			(item) => item.movie.imdbID === id && item.user_id === user.id
 		);
 		if (movie.quantity > 1) {
 			movie.quantity--;
-			newItems.push(movie);
+			items[index] = movie;
+		} else {
+			items.splice(index, 1);
 		}
-		setItems([...newItems]);
-		saveInLocalStorage(newItems);
+		console.log(items);
+		setItems([...items]);
+		saveInLocalStorage(items);
 	}
 
 	function upOne(id) {
 		const movie = movieIsInCart(id);
 		if (movie === undefined) return;
-		const newItems = items.filter(
-			(item) => item.movie.imdbID !== id && item.user_id !== user.id
-		);
 		if (movie.quantity < 10) {
+			const index = items.findIndex(
+				(item) => item.movie.imdbID === id && item.user_id === user.id
+			);
 			movie.quantity++;
-			newItems.push(movie);
-			setItems([...newItems]);
-			saveInLocalStorage(newItems);
+			items[index] = movie;
+			setItems([...items]);
+			saveInLocalStorage(items);
 		}
 	}
 
