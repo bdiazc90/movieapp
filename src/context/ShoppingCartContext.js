@@ -23,7 +23,7 @@ export const ShoppingCartProvider = ({ children }) => {
 
 	function movieIsInCart(id) {
 		const movie = items.find(
-			(item) => item.movie.imdbID === id && item.movie.user_id === user.id
+			(item) => item.movie.imdbID === id && item.user_id === user.id
 		);
 		return movie;
 	}
